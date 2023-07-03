@@ -4,11 +4,11 @@ import { useWindowDimensions } from 'react-native';
 import RenderHtml from 'react-native-render-html';
 
 export default function Article({route}) {
-    const { target } = route.params
+    const { slug } = route.params
     const { width } = useWindowDimensions();
     const [article, setArticle] = useState()
     useEffect(() => {
-        fetch(`https://dev.to/api/articles/abbeyperini/${target.slug}`)
+        fetch(`https://dev.to/api/articles/abbeyperini/${slug}`)
         .then((res) => res.json())
         .then((data) => setArticle(data))
     }, [])

@@ -36,7 +36,7 @@ const Home = ({ navigation }) => {
           <Card
             key={article.id}
             style={ styles.card}
-            onPress={() => navigation.navigate("Article", {target: article}) }
+            onPress={() => navigation.navigate("Article", {slug: article.slug}) }
           >
           <Card.Content>
             <Text>{article.title}</Text>
