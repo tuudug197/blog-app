@@ -1,17 +1,11 @@
 import * as React from 'react'
-import {
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-  StyleSheet,
-} from 'react-native'
+import { Text, View, StyleSheet } from 'react-native'
 import { useSignUp } from '@clerk/clerk-expo'
-import { Button } from 'react-native-paper';
+import { Button, TextInput } from 'react-native-paper'
 
-export default function SignUpScreen() {
+export default function SignUpScreen(props) {
+  const { setInterval } = props
   const { isLoaded, signUp, setActive } = useSignUp()
-
   const [emailAddress, setEmailAddress] = React.useState('')
   const [password, setPassword] = React.useState('')
   const [pendingVerification, setPendingVerification] = React.useState(false)
@@ -62,47 +56,60 @@ export default function SignUpScreen() {
     <>
       {!pendingVerification && (
         <View style={styles.container}>
-            <Text
-              style={{
-                fontSize: 22,
-                fontWeight: 600,
-                width: "80%", 
-                marginBottom: 10
-              }}
-            >Sign Up</Text>
-            <View style={ styles.inputContainer}>
-              <TextInput
-                style={styles.input}
-                autoCapitalize="none"
-                placeholder="Email..."
-                value={emailAddress}
-                onChangeText={(email) => setEmailAddress(email)}
-              />
-              <TextInput
-                style={styles.input}
-                placeholder="Password..."
-                secureTextEntry={true}
-                value={password}
-                onChangeText={(password) => setPassword(password)}
-              />
-            </View>
-            <View style={{ width: "80%", display: "flex",  alignItems: "flex-end"}}>
-              <Button mode='text' >Proceed</Button>
-            </View>
+          <Text
+            style={{
+              fontSize: 22,
+              fontWeight: 600,
+              width: '80%',
+              marginBottom: 10,
+            }}
+          >
+            Sign Up
+          </Text>
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={{ width: '80%' }}
+              autoCapitalize="none"
+              placeholder="Email..."
+              value={emailAddress}
+              onChangeText={(email) => setEmailAddress(email)}
+            />
+            <TextInput
+              style={{ width: '80%' }}
+              placeholder="Password..."
+              secureTextEntry={true}
+              value={password}
+              onChangeText={(password) => setPassword(password)}
+            />
+          </View>
+          <View
+            style={{ width: '80%', display: 'flex', alignItems: 'flex-end' }}
+          >
+            <Button onPress={onSignUpPress} mode="text">
+              Proceed
+            </Button>
+          </View>
+          <View style={{ width: '80%', display: 'flex', alignItems: 'flex-end' }}>
+            <Button onPress={() => setInterval((value) => !value)} mode="text">
+              Sign in
+            </Button>
+          </View>
         </View>
       )}
       {pendingVerification && (
-        <View>
-          <View>
-            <TextInput
-              value={code}
-              placeholder="Code..."
-              onChangeText={(code) => setCode(code)}
-            />
+        <View style={styles.container}>
+          <TextInput
+            style={{ width: '80%' }}
+            value={code}
+            placeholder="Code..."
+            onChangeText={(code) => setCode(code)}
+          />
+          <View style={{ width: '80%', display: 'flex' }}>
+            <Button onPress={onPressVerify} mode="number">
+              Proceed
+            </Button>
           </View>
-          <TouchableOpacity onPress={onPressVerify}>
-            <Text>Verify Email</Text>
-          </TouchableOpacity>
+          
         </View>
       )}
     </>
@@ -114,26 +121,12 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     flex: 1,
-    paddingTop: "50%"
+    paddingTop: '50%',
   },
-  input: {
-    borderRadius: 5,
-    backgroundColor: 'rgb(249, 250, 250)',
-    borderWidth: 1,
-    borderColor: 'rgb(181, 189, 196)',
-    fontSize: 16,
-    height: 40,
-    lineHeight: 24,
-    paddingVertical: 7,
-    paddingHorizontal: 8,
-    color: 'rgb(8, 9, 10)',
-    shadowColor: 'transparent',
-    width: "80%"
-  }, 
   inputContainer: {
-    width: "100%",
-    display: "flex",
-    alignItems: "center",
-    gap: 12
-  }
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    gap: 12,
+  },
 })

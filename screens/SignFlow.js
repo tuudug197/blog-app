@@ -4,5 +4,13 @@ import SignInScreen from './SignInScreen'
 
 export default function SignFlow() {
   const [interval, setInterval] = useState(true)
-  return <>{interval ? <SignUpScreen /> : <SignInScreen />}</>
+  return (
+    <>
+      {interval ? (
+        <SignInScreen setInterval={setInterval} />
+      ) : (
+        <SignUpScreen setInterval={setInterval} />
+      )}
+    </>
+  )
 }
